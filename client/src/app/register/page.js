@@ -1,11 +1,11 @@
-// pages/login.js
+// pages/register.js
 
 import React from 'react';
 
-const LoginPage = () => {
+const RegisterPage = () => {
     return (
         <div>
-            <h1>Iniciar sesión</h1>
+            <h1>Registro</h1>
             <form>
                 <div>
                     <label>Email:</label>
@@ -15,11 +15,15 @@ const LoginPage = () => {
                     <label>Contraseña:</label>
                     <input type="password" name="password" required />
                 </div>
-                <button type="submit">Iniciar sesión</button>
+                <div>
+                    <label>Confirmar contraseña:</label>
+                    <input type="password" name="confirmPassword" required />
+                </div>
+                <button type="submit">Registrarse</button>
             </form>
-            <p>No tienes una cuenta? <a href="/register">Regístrate</a></p>
+            <p>Ya tienes una cuenta? <a href="/login">Iniciar sesión</a></p>
         </div>
     );
 }
 
-export default LoginPage;
+export default RegisterPage;
