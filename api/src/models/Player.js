@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
                 allowNull: false,
                 primaryKey: true,
             },
-            username: {
+            tag: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 unique: true, // Asegura que el nombre de usuario sea único
