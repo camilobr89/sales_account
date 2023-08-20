@@ -5,6 +5,7 @@ const {  getPlayerByTag } = require('../controllers/getPlayer.controller.js');
 // Ejemplo: const authRouter = require('./auth.js');
 
 const register = require('./userRoutes.js');
+const login = require('./loginRoute.js');
 
 
 const router = Router();
@@ -13,7 +14,8 @@ const router = Router();
 // Ejemplo: router.use('/auth', authRouter);
 //router.get('/players', getAllPlayers);
 router.get('/players/:tag', getPlayerByTag);
-router.use('/', register);
+router.use('/register', register);
+router.use('/login', login);
 
 
 module.exports = router;
