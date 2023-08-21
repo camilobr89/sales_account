@@ -48,8 +48,6 @@ export const createSaleIntent = createAsyncThunk(
 );
 
 
-
-
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -100,7 +98,7 @@ const userSlice = createSlice({
         state.status = 'succeeded';
         // Aquí puedes agregar la intención de venta al estado si lo deseas
 
-        
+
       })
       .addCase(createSaleIntent.rejected, (state, action) => {
         state.status = 'failed';

@@ -1,21 +1,31 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, createSaleIntent } from '../redux/slice';
 import { useRouter } from 'next/navigation';
+import { fetchSaleIntents, completeSaleIntent } from '../redux/saleIntentsSlice';
+
 
 function UserComponent() {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState('userInfo');
   const user = useSelector((state) => state.user.user);
-  const [price, setPrice] = useState(0);
+  const saleIntents = useSelector((state) => state.saleIntents.list);
 
   const router = useRouter();
 
   if (!user) {
     return <p>No hay información del usuario disponible.</p>;
   }
+
+  const handleCancelIntent = (intentId) => {
+    dispatch(cancelSaleIntent(intentId));
+};
+
+const handleCompleteIntent = (intentId) => {
+    dispatch(completeSaleIntent(intentId));
+};
 
   const handleLogout = () => {
     dispatch(logout()),
@@ -37,6 +47,12 @@ function UserComponent() {
         }
     }
 };
+
+useEffect(() => {
+  if (activeTab === 'salesList') {
+    dispatch(fetchSaleIntents());
+  }
+}, [activeTab, dispatch]);
 
 
 
@@ -91,8 +107,22 @@ function UserComponent() {
 
       {activeTab === 'salesList' && (
         <div className="tab-content">
-          {/* Aquí puedes mostrar la lista de cuentas en venta */}
-          <p>Lista de cuentas en venta...</p>
+          <p>Lista de cuentas en venta:</p>
+          {saleIntents.map((intent) => (
+            <div key={intent.name}>
+              <strong>Nombre:</strong> {intent.name}
+              <br />
+              <strong>Precio:</strong> {intent.price}
+              <br />
+              <strong>Estado:</strong> {intent.status}
+              <br />
+              {user.name === intent.name ? (
+                <button onClick={() => handleCancelIntent(intent.id)}>Cancelar</button>
+              ) : (
+                <button onClick={() => handleCompleteIntent(intent.id)}>Comprar</button>
+              )}
+            </div>
+          ))}
         </div>
       )}
 
