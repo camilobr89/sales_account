@@ -43,7 +43,17 @@ const userSlice = createSlice({
     status: 'idle',
     error: null
   },
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.user = null;
+      state.status = 'idle';
+      state.error = null;
+
+      // Eliminar el token del localStorage
+      localStorage.removeItem('token');
+    }
+  },
+
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
@@ -63,6 +73,7 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.user = action.payload;
+        localStorage.setItem('token', action.payload.token);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'failed';
@@ -72,4 +83,9 @@ const userSlice = createSlice({
   }
 });
 
+
+
+export const { logout } = userSlice.actions;
+
 export default userSlice.reducer;
+

@@ -2,18 +2,22 @@
 
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-//import { logoutUser } from './redux/slice'; // Asumiendo que tienes una acción para cerrar sesión
+import { logout } from '../redux/slice';
+import { useRouter } from 'next/navigation';
 
 function UserComponent() {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState('userInfo');
   const user = useSelector((state) => state.user.user);
+  const router = useRouter();
+
   if (!user) {
     return <p>No hay información del usuario disponible.</p>;
   }
 
   const handleLogout = () => {
-    dispatch(logoutUser()); // Llama a la acción de cerrar sesión
+    dispatch(logout()),
+    router.push('/');
   };
 
   const handlePurchaseIntent = () => {
