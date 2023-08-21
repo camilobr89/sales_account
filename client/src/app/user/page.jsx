@@ -2,13 +2,15 @@
 
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../redux/slice';
+import { logout, createSaleIntent } from '../redux/slice';
 import { useRouter } from 'next/navigation';
 
 function UserComponent() {
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState('userInfo');
   const user = useSelector((state) => state.user.user);
+  const [price, setPrice] = useState(0);
+
   const router = useRouter();
 
   if (!user) {
@@ -20,9 +22,23 @@ function UserComponent() {
     router.push('/');
   };
 
+  
   const handlePurchaseIntent = () => {
-    // Aquí puedes manejar la lógica para la intención de compra
-  };
+    const enteredPrice = prompt("Por favor, ingresa el precio al que deseas vender tu cuenta:");
+
+    if (enteredPrice) {
+        const price = parseInt(enteredPrice, 10);
+        if (!isNaN(price)) {
+            // Despacha la acción con los datos necesarios
+           
+            dispatch(createSaleIntent({ playerPlayerId: user.playerPlayerId, price }));
+        } else {
+            alert("Por favor, ingresa un número válido para el precio.");
+        }
+    }
+};
+
+
 
   return (
     <div>
@@ -68,6 +84,9 @@ function UserComponent() {
             <strong>Total de batallas:</strong> {user.battleCount}
           </div>
         </div>
+
+        
+
       )}
 
       {activeTab === 'salesList' && (

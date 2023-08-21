@@ -52,6 +52,7 @@ const loginUser = async (req, res) => {
 
             // Combinar los datos del usuario y los datos de la API
             const userData = {
+                playerPlayerId: existingUser.player_id,
                 email: existingUser.email,
                 tag: existingUser.tag,
                 name,

@@ -20,6 +20,7 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+// Acción asíncrona para iniciar sesión
 export const loginUser = createAsyncThunk(
   'user/login',
   async (userData, thunkAPI) => {
@@ -32,6 +33,19 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+
+// Acción asíncrona para crear un intencion de venta
+export const createSaleIntent = createAsyncThunk(
+  'saleIntent/create',
+  async (saleData, thunkAPI) => {
+    try {
+      const response = await axios.post('http://localhost:3001/sale', saleData);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error: error.response.data.message });
+    }
+  }
+);
 
 
 
@@ -78,7 +92,21 @@ const userSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload.error;
+      })
+      .addCase(createSaleIntent.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(createSaleIntent.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        // Aquí puedes agregar la intención de venta al estado si lo deseas
+
+        
+      })
+      .addCase(createSaleIntent.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload.error;
       });
+      
       
   }
 });

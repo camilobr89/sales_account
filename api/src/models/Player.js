@@ -15,6 +15,10 @@ module.exports = (sequelize) => {
                 allowNull: false,
                 unique: true, // Asegura que el nombre de usuario sea único
             },
+            name: {
+                type: DataTypes.STRING,
+                allowNull: true, // Puedes hacerlo no nulo si prefieres
+            },
             email: {
                 type: DataTypes.STRING,
                 allowNull: false,
