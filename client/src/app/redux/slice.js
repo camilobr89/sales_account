@@ -20,6 +20,19 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+export const loginUser = createAsyncThunk(
+  'user/login',
+  async (userData, thunkAPI) => {
+    try {
+      const response = await axios.post('http://localhost:3001/login', userData);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error: error.response.data.message });
+    }
+  }
+);
+
+
 
 
 
@@ -40,13 +53,20 @@ const userSlice = createSlice({
         state.status = 'succeeded';
         state.user = action.payload;
       })
-      // .addCase(registerUser.rejected, (state, action) => {
-      //   state.status = 'failed';
-      //   state.error = action.payload.error;
-      // });
       .addCase(registerUser.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+      })
+      .addCase(loginUser.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.user = action.payload;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload.error;
       });
       
   }
