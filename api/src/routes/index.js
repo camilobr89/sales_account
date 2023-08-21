@@ -6,6 +6,7 @@ const {  getPlayerByTag } = require('../controllers/getPlayer.controller.js');
 
 const register = require('./userRoutes.js');
 const login = require('./loginRoute.js');
+const sale = require('./saleIntentRoute.js');
 
 
 const router = Router();
@@ -16,6 +17,7 @@ const router = Router();
 router.get('/players/:tag', getPlayerByTag);
 router.use('/register', register);
 router.use('/login', login);
+router.use('/sale', sale);
 
 
 module.exports = router;

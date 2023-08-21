@@ -9,10 +9,7 @@ module.exports = (sequelize) => {
                 allowNull: false,
                 primaryKey: true,
             },
-            registration_date: {
-                type: DataTypes.DATE,
-                allowNull: false,
-            },
+        
             price: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
