@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-const { URL_HOST } = process.env;
+
 
 // Acción asíncrona para obtener todas las intenciones de compra
 export const fetchSaleIntents = createAsyncThunk(
   'saleIntents/fetch',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get(`http://${URL_HOST}:3001/buy`);
+      const response = await axios.get('http://localhost:3001/buy');
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.response.data.message });
@@ -20,7 +20,7 @@ export const completeSaleIntent = createAsyncThunk(
   'saleIntents/complete',
   async (sale_id, thunkAPI) => {
     try {
-      const response = await axios.put(`http://${URL_HOST}:3001/buy/complete/${sale_id}?_=${Date.now()}`);
+      const response = await axios.put(`http://localhost:3001/buy/complete/${sale_id}?_=${Date.now()}`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.response.data.message });
@@ -33,7 +33,7 @@ export const cancelSaleIntent = createAsyncThunk(
   'saleIntents/cancel',
   async (sale_id, thunkAPI) => {
     try {
-      const response = await axios.put(`http://${URL_HOST}:3001/buy/cancel/${sale_id}?_=${Date.now()}`);
+      const response = await axios.put(`http://localhost:3001/buy/cancel/${sale_id}?_=${Date.now()}`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.response.data.message });
