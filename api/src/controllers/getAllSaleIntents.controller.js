@@ -11,7 +11,7 @@ const getAllSaleIntents = async (req, res) => {
     try {
     
         const saleIntents = await SaleIntent.findAll({
-            attributes: ['price', 'status'], // Selecciona el precio y el estado de la intención de compra
+            attributes: ['sale_id', 'price', 'status'], // Selecciona el precio y el estado de la intención de compra
             include: [{
                 model: Player,
                 attributes: ['name'], // Selecciona solo el nombre del jugador
@@ -20,10 +20,12 @@ const getAllSaleIntents = async (req, res) => {
 
         // Transforma la respuesta para que tenga el formato deseado
         const formattedResponse = saleIntents.map(intent => ({
+            sale_id: intent.sale_id,
             name: intent.player.dataValues.name, 
             price: intent.price,
             status: intent.status
         }));
+        
         
         res.json(formattedResponse);
     } catch (error) {

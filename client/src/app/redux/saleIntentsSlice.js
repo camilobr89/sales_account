@@ -17,15 +17,29 @@ export const fetchSaleIntents = createAsyncThunk(
 // Acción asíncrona para completar una intención de compra
 export const completeSaleIntent = createAsyncThunk(
   'saleIntents/complete',
-  async (intentId, thunkAPI) => {
+  async (sale_id, thunkAPI) => {
     try {
-      const response = await axios.put(`http://localhost:3001/buy/${intentId}`, { status: 'Completada' });
+      const response = await axios.put(`http://localhost:3001/buy/complete/${sale_id}?_=${Date.now()}`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.response.data.message });
     }
   }
 );
+
+// Acción asíncrona para cancelar una intención de compra
+export const cancelSaleIntent = createAsyncThunk(
+  'saleIntents/cancel',
+  async (sale_id, thunkAPI) => {
+    try {
+      const response = await axios.put(`http://localhost:3001/buy/cancel/${sale_id}?_=${Date.now()}`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue({ error: error.response.data.message });
+    }
+  }
+);
+
 
 const saleIntentsSlice = createSlice({
   name: 'saleIntents',
@@ -58,7 +72,19 @@ const saleIntentsSlice = createSlice({
       .addCase(completeSaleIntent.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload.error;
+      })
+      .addCase(cancelSaleIntent.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(cancelSaleIntent.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        // Aquí puedes actualizar la intención de compra en el estado si lo deseas
+      })
+      .addCase(cancelSaleIntent.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload.error;
       });
+      
   }
 });
 
