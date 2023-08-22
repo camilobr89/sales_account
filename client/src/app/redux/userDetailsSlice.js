@@ -1,12 +1,13 @@
 // userDetailsSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+const { URL_HOST } = process.env;
 
 // Acción asíncrona para obtener los detalles del usuario
 export const fetchUserDetails = createAsyncThunk(
   'userDetails/fetchUserDetails',
   async (sale_id) => {
-    const response = await axios.get(`http://localhost:3001/user/${sale_id}/detail`);
+    const response = await axios.get(`http://${URL_HOST}:3001/user/${sale_id}/detail`);
     return response.data;
   }
 );

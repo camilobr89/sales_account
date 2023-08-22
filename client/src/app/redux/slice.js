@@ -1,6 +1,7 @@
 // slice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+const { URL_HOST } = process.env;
 
 
 // Acción asíncrona para registrar un usuario
@@ -8,7 +9,7 @@ export const registerUser = createAsyncThunk(
   'user/register',
   async (userData, thunkAPI) => {
     try {
-      const response = await axios.post('http://localhost:3001/register', userData);
+      const response = await axios.post(`http://${URL_HOST}:3001/register`, userData);
       return response.data;
     } catch (error) {
       let errorMessage = 'Error al registrar el usuario';
@@ -25,7 +26,7 @@ export const loginUser = createAsyncThunk(
   'user/login',
   async (userData, thunkAPI) => {
     try {
-      const response = await axios.post('http://localhost:3001/login', userData);
+      const response = await axios.post(`http://${URL_HOST}:3001/login`, userData);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.response.data.message });
@@ -39,7 +40,7 @@ export const createSaleIntent = createAsyncThunk(
   'saleIntent/create',
   async (saleData, thunkAPI) => {
     try {
-      const response = await axios.post('http://localhost:3001/sale', saleData);
+      const response = await axios.post(`http://${URL_HOST}:3001/sale`, saleData);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.response.data.message });
