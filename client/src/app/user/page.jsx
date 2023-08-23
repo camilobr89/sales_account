@@ -16,10 +16,8 @@ function UserComponent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [enteredPrice, setEnteredPrice] = useState("");
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
-  const [selectedUserDetails, setSelectedUserDetails] = useState(null);
-
   const userDetails = useSelector((state) => state.userDetails.user); 
-  const userDetailsStatus = useSelector((state) => state.userDetails.status); 
+
 
 
   const router = useRouter();
@@ -31,17 +29,26 @@ function UserComponent() {
     setIsDetailsModalOpen(true);
 };
 
-  
-
-  
-
-  const handleCancelIntent = (intentId) => {
-    dispatch(cancelSaleIntent(intentId));
+const handleCancelIntent = (intentId) => {
+  dispatch(cancelSaleIntent(intentId))
+  .then(() => {
+      dispatch(fetchSaleIntents());
+  })
+  .catch((error) => {
+      console.error("Error al cancelar la intención de venta:", error);
+  });
 };
 
 const handleCompleteIntent = (intentId) => {
-    dispatch(completeSaleIntent(intentId));
+  dispatch(completeSaleIntent(intentId))
+  .then(() => {
+      dispatch(fetchSaleIntents());
+  })
+  .catch((error) => {
+      console.error("Error al completar la intención de venta:", error);
+  });
 };
+
 
   const handleLogout = () => {
     dispatch(logout())

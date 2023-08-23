@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, use } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../redux/slice';
+import { registerUser, loginUser } from '../redux/slice';
 import { useRouter } from 'next/navigation';
 
 
@@ -42,10 +42,11 @@ function RegisterComponent() {
 }, [userStatus, userError]);
 
 useEffect(() => {
-    if (userStatus === 'succeeded') {
-        router.push('/user');
-    }
-}, [userStatus]);
+  if (userStatus === 'succeeded') {
+    dispatch(loginUser(formData));
+    router.push('/user');
+  }
+}, [userStatus, dispatch, router]);
 
 return (
   <div className="min-h-screen flex items-center justify-center bg-white">
