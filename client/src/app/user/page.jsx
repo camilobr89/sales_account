@@ -17,6 +17,8 @@ function UserComponent() {
   const [enteredPrice, setEnteredPrice] = useState("");
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const userDetails = useSelector((state) => state.userDetails.user); 
+  const [isProcessing, setIsProcessing] = useState(false);
+
 
 
 
@@ -48,6 +50,29 @@ const handleCompleteIntent = (intentId) => {
       console.error("Error al completar la intención de venta:", error);
   });
 };
+
+
+
+const handleConfirmIntent = () => {
+  setIsProcessing(true);  // Inicia el feedback visual
+  const price = parseInt(enteredPrice, 10);
+  if (!isNaN(price)) {
+      dispatch(createSaleIntent({ playerPlayerId: user.playerPlayerId, price }))
+      .then(() => {
+          setIsModalOpen(false);
+          setIsProcessing(false);  // Finaliza el feedback visual
+          dispatch(fetchSaleIntents());
+      })
+      .catch((error) => {
+          setIsProcessing(false);  // Finaliza el feedback visual en caso de error
+          console.error("Error al crear la intención de venta:", error);
+      });
+  } else {
+      alert("Por favor, ingresa un número válido para el precio.");
+      setIsProcessing(false);  // Finaliza el feedback visual en caso de error
+  }
+};
+
 
 
   const handleLogout = () => {
@@ -94,19 +119,12 @@ return (
           <p className="mb-4">Por favor, ingresa el precio al que deseas vender tu cuenta:</p>
           <input type="number" value={enteredPrice} onChange={(e) => setEnteredPrice(e.target.value)} className="border p-2 rounded-md mb-4 w-full" />
           <div className="flex justify-between">
-            <button 
-              onClick={() => {
-                const price = parseInt(enteredPrice, 10);
-                if (!isNaN(price)) {
-                  dispatch(createSaleIntent({ playerPlayerId: user.playerPlayerId, price }));
-                  setIsModalOpen(false);
-                } else {
-                  alert("Por favor, ingresa un número válido para el precio.");
-                }
-              }}
-              className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+          <button 
+               onClick={handleConfirmIntent}
+               disabled={isProcessing}
+               className={`bg-blue-500 text-white p-2 rounded-md ${isProcessing ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-600'}`}
             >
-              Confirmar
+               {isProcessing ? "Procesando..." : "Confirmar"}
             </button>
             <button 
               onClick={() => setIsModalOpen(false)}
@@ -114,6 +132,7 @@ return (
             >
               Cancelar
             </button>
+            
           </div>
         </div>
       </div>
