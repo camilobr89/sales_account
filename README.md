@@ -34,6 +34,17 @@ Una casa de videojuegos ha decidido permitir a sus jugadores visualizar datos es
 2. **Configuración de las API**:
    - Regístrate en la [API de Clash Royale](https://developer.clashroyale.com/) y obtén tu API_KEY.
    - Añade tu API_KEY o tus variables de entorno al archivo `.env` en la raíz de la carpeta api.
+   -  En la carpeta **`api`** deberás crear un archivo llamado: **`.env`** que tenga la siguiente forma:
+
+   ```env
+        DB_USER=nombre_de_usuario_de_la_base_de_datos
+        DB_PASSWORD=contraseña_de_la_base_de_datos
+        DB_HOST=host_de_la_base_de_datos
+        DB_NAME=nombre_de_la_base_de_datos
+        PORT=3001
+        JWT_SECRET=token_secreto_para_jwt
+        API_KEY=token_de_api_de_clash_royale
+   ```
 
 3. **Ejecución**:
    - Ejecuta el servidor de desarrollo para backend usando `npm start` estando ubicado en la carpeta api.
