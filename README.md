@@ -1,4 +1,4 @@
-## README: Casa de Videojuegos - Intercambio de Cuentas de Jugadores
+## Casa de Videojuegos - Intercambio de Cuentas de Jugadores
 
 ### Descripción
 
@@ -35,6 +35,7 @@ Una casa de videojuegos ha decidido permitir a sus jugadores visualizar datos es
    - Regístrate en la [API de Clash Royale](https://developer.clashroyale.com/) y obtén tu API_KEY.
    - Añade tu API_KEY o tus variables de entorno al archivo `.env` en la raíz de la carpeta api.
    -  En la carpeta **`api`** deberás crear un archivo llamado: **`.env`** que tenga la siguiente forma:
+
 
    ```env
         DB_USER=nombre_de_usuario_de_la_base_de_datos
