@@ -21,7 +21,6 @@ const getUserDetailsBySaleId = async (req, res) => {
         const user = await Player.findByPk(saleIntent.playerPlayerId);
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
-            console.log(user);
         }
 
         // Verificar el tag en la API de Clash Royale
